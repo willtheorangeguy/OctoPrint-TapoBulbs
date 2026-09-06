@@ -1,0 +1,68 @@
+/* Tapo Bulbs - OctoPrint plugin styles. */
+
+.tapo-bulbs-menu {
+    min-width: 310px;
+    padding: 6px 0;
+}
+
+.tapo-bulbs-menu li.tapo-bulbs-row,
+.tapo-bulbs-menu li.tapo-bulbs-error,
+.tapo-bulbs-menu li.tapo-bulbs-empty {
+    padding: 6px 14px;
+    white-space: normal;
+}
+
+.tapo-bulbs-menu li.tapo-bulbs-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tapo-bulbs-state {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #999;
+}
+
+.tapo-bulbs-state-on { background-color: #4a4; }
+.tapo-bulbs-state-off { background-color: #bbb; }
+.tapo-bulbs-state-unavailable,
+.tapo-bulbs-state-unknown { background-color: #d90; }
+
+.tapo-bulbs-label {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tapo-bulbs-brightness {
+    flex: 0 0 auto;
+    color: #888;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+}
+
+.tapo-bulbs-actions { flex: 0 0 auto; }
+.tapo-bulbs-error { color: #b94a48; }
+.tapo-bulbs-empty { color: #888; }
+
+.tapo-bulbs-table input,
+.tapo-bulbs-table select {
+    margin-bottom: 0;
+}
+
+.tapo-bulbs-table .tapo-bulbs-check {
+    width: 52px;
+    text-align: center;
+}
+
+.tapo-bulbs-table .tapo-bulbs-actions-cell {
+    white-space: nowrap;
+}
+
+.tapo-bulbs-table-wrap {
+    overflow-x: auto;
+}

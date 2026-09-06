@@ -1,0 +1,31 @@
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Tapo print lights">
+    <i class="fas fa-lightbulb"></i>
+</a>
+<ul class="dropdown-menu tapo-bulbs-menu">
+    <!-- ko if: connectionError -->
+    <li class="tapo-bulbs-error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span data-bind="text: connectionError"></span>
+    </li>
+    <!-- /ko -->
+
+    <!-- ko ifnot: navbarBulbs().length -->
+    <li class="tapo-bulbs-empty">
+        <span data-bind="visible: !connectionError()">
+            No bulbs configured yet &mdash; add them in Settings &rarr; Tapo Bulbs.
+        </span>
+    </li>
+    <!-- /ko -->
+
+    <!-- ko foreach: navbarBulbs -->
+    <li class="tapo-bulbs-row">
+        <span class="tapo-bulbs-state" data-bind="css: stateClass" title="Bulb state"></span>
+        <span class="tapo-bulbs-label" data-bind="text: label, attr: {title: entity_id}"></span>
+        <span class="tapo-bulbs-brightness" data-bind="text: brightnessText"></span>
+        <div class="btn-group tapo-bulbs-actions">
+            <button class="btn btn-mini" data-bind="click: $parent.turnOn, enable: $parent.canControl">On</button>
+            <button class="btn btn-mini" data-bind="click: $parent.turnOff, enable: $parent.canControl">Off</button>
+        </div>
+    </li>
+    <!-- /ko -->
+</ul>

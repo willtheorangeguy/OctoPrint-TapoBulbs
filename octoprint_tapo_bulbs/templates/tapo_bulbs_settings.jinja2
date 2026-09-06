@@ -1,0 +1,117 @@
+<form class="form-horizontal tapo-bulbs-settings">
+    <h4>Home Assistant connection</h4>
+
+    <div class="control-group">
+        <label class="control-label">Server URL</label>
+        <div class="controls">
+            <input type="text" class="input-xxlarge"
+                   placeholder="https://homeassistant.local:8123"
+                   data-bind="value: pluginSettings.base_url">
+            <span class="help-block">Base URL of the Home Assistant instance that commissioned the bulb through Matter.</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Access token</label>
+        <div class="controls">
+            <input type="password" class="input-xxlarge" autocomplete="new-password"
+                   data-bind="value: pluginSettings.access_token">
+            <span class="help-block">A long-lived access token from your Home Assistant profile. Only OctoPrint administrators can read it back.</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: pluginSettings.verify_certificate">
+                Verify the TLS certificate
+            </label>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Poll interval</label>
+        <div class="controls">
+            <div class="input-append">
+                <input type="number" min="5" class="input-mini"
+                       data-bind="value: pluginSettings.poll_interval">
+                <span class="add-on">s</span>
+            </div>
+            <span class="help-block">How often to refresh bulb states. Minimum 5 seconds.</span>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button type="button" class="btn" data-bind="click: testConnection, enable: !testing()">
+                <i class="fas fa-plug"></i> Test connection
+            </button>
+            <button type="button" class="btn" data-bind="click: loadLights, enable: !loadingLights()">
+                <i class="fas fa-sync"></i> Load lights from Home Assistant
+            </button>
+            <span class="help-inline" data-bind="text: testResult, css: testResultClass"></span>
+        </div>
+    </div>
+
+    <hr>
+    <h4>Print lights</h4>
+    <p class="help-block">
+        Add one or more <code>light.*</code> entities. Turn-on brightness and colour temperature are optional; blank values preserve the bulb's previous profile.
+    </p>
+
+    <datalist id="tapo_bulbs_light_list" data-bind="foreach: discoveredLights">
+        <option data-bind="attr: {value: entity_id}, text: name"></option>
+    </datalist>
+
+    <div class="tapo-bulbs-table-wrap">
+        <table class="table table-condensed tapo-bulbs-table">
+            <thead>
+                <tr>
+                    <th>Entity ID</th>
+                    <th>Label</th>
+                    <th class="tapo-bulbs-check" title="Show in the navbar">Navbar</th>
+                    <th class="tapo-bulbs-check" title="Turn on when a print starts">Start</th>
+                    <th class="tapo-bulbs-check" title="Turn off after a completed print">Done</th>
+                    <th class="tapo-bulbs-check" title="Turn off after a failed print">Failed</th>
+                    <th class="tapo-bulbs-check" title="Turn off after a cancelled print">Cancelled</th>
+                    <th>Brightness</th>
+                    <th>Kelvin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: bulbs">
+                <tr>
+                    <td><input type="text" class="input-medium" list="tapo_bulbs_light_list" placeholder="light.printer" data-bind="value: entity_id"></td>
+                    <td><input type="text" class="input-small" placeholder="Printer light" data-bind="value: label"></td>
+                    <td class="tapo-bulbs-check"><input type="checkbox" data-bind="checked: show_in_navbar"></td>
+                    <td class="tapo-bulbs-check"><input type="checkbox" data-bind="checked: on_print_start"></td>
+                    <td class="tapo-bulbs-check"><input type="checkbox" data-bind="checked: off_print_done"></td>
+                    <td class="tapo-bulbs-check"><input type="checkbox" data-bind="checked: off_print_failed"></td>
+                    <td class="tapo-bulbs-check"><input type="checkbox" data-bind="checked: off_print_cancelled"></td>
+                    <td><input type="number" min="1" max="100" class="input-mini" placeholder="keep" data-bind="value: brightness_pct"></td>
+                    <td><input type="number" min="1" class="input-small" placeholder="keep" data-bind="value: color_temp_kelvin"></td>
+                    <td class="tapo-bulbs-actions-cell">
+                        <button type="button" class="btn btn-mini btn-danger" title="Remove" data-bind="click: $parent.removeBulb">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="button" class="btn" data-bind="click: addBulb">
+        <i class="fas fa-plus"></i> Add bulb
+    </button>
+
+    <div class="control-group" style="margin-top: 15px;">
+        <label class="control-label">Turn-off delay</label>
+        <div class="controls">
+            <div class="input-append">
+                <input type="number" min="0" class="input-mini" data-bind="value: pluginSettings.off_delay">
+                <span class="add-on">s</span>
+            </div>
+            <span class="help-block">Keep the video lit for this long after a print ends. A new print cancels a pending turn-off.</span>
+        </div>
+    </div>
+</form>
