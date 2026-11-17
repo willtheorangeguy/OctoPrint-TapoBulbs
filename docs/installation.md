@@ -10,6 +10,10 @@ Install OctoPrint-TapoBulbs through Plugin Manager or from a local checkout.
 The plugin supports Python 3.7 through 3.x and OctoPrint 1.5.0 or newer. It adds
 no runtime dependency because OctoPrint already provides `requests`.
 
+OctoPrint 2.0.0 requires Python 3.9 or newer. The plugin's automated compatibility
+checks pass on OctoPrint 2.0.0 with Python 3.12. See [testing](testing.md) for
+coverage and the manual test with a real light.
+
 === "Plugin Manager URL"
 
     Open **Settings -> Plugin Manager -> Get More** and paste:

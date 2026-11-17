@@ -6,14 +6,15 @@ shared MkDocs repository used by OctoPrint-HomeAssistantPower.
 ## Test workflow
 
 `.github/workflows/test.yml` runs on pushes and pull requests. Its matrix uses
-Python 3.9 and 3.12, installs OctoPrint, installs the plugin with development
-extras, and runs pytest.
+Python 3.9 and 3.12 against OctoPrint 1.11.7 and 2.0.0. Each job installs the
+plugin with development extras, builds a wheel, and runs pytest.
 
 The local equivalent is:
 
 ```bash
-python -m pip install OctoPrint
-python -m pip install --no-build-isolation -e ".[develop]"
+python -m pip install "OctoPrint==2.0.0"
+python -m pip install -e ".[develop]"
+python -m pip wheel . --no-deps --wheel-dir dist
 python -m pytest
 ```
 

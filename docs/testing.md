@@ -5,7 +5,8 @@
 
 The test suite covers Home Assistant request construction, safe error mapping,
 per-outcome automation, failure isolation, shutdown, and delayed-action
-cancellation.
+cancellation. It also uses installed OctoPrint APIs to check plugin discovery,
+settings, permission enforcement, and print event wiring.
 
 ## Run tests
 
@@ -28,7 +29,7 @@ Install development dependencies first:
 A successful run ends with output like:
 
 ```text
-21 passed
+38 passed
 ```
 
 The exact count changes as coverage grows.
@@ -39,9 +40,31 @@ The exact count changes as coverage grows.
 | --- | --- |
 | `tests/test_ha_client.py` | Entity validation, REST paths, payloads, authentication, states, and errors |
 | `tests/test_automation.py` | Start/end selection, profiles, delays, cancellation, shutdown, and partial failure |
+| `tests/test_plugin.py` | OctoPrint entry point discovery, settings, API permissions, and print events reaching the Home Assistant client |
 
 `requests-mock` intercepts Home Assistant calls. The suite does not require a
 Home Assistant server, Matter controller, bulb, or OctoPrint process.
+
+## OctoPrint 2.0.0 compatibility
+
+The 38 automated tests pass against OctoPrint 2.0.0 on Python 3.12. The plugin
+does not use the removed APIs listed in the
+[OctoPrint 2.0.0 migration guide](https://docs.octoprint.org/en/main/plugins/migration_2_0_0.html).
+Its print automation uses lifecycle events without depending on the printer
+connector implementation or event payload fields.
+
+Builds use the setuptools backend declared in `pyproject.toml`. They do not
+import OctoPrint during packaging. Both an editable install and a wheel build
+work with pip's default build isolation:
+
+```bash
+python -m pip install -e ".[develop]"
+python -m pip wheel . --no-deps --wheel-dir dist
+python -m pytest
+```
+
+These checks mock Home Assistant traffic. Verify browser controls and actual
+bulb behavior with the manual test below before deploying to a printer.
 
 ## Manual test
 
