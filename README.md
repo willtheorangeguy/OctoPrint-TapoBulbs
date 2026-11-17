@@ -22,7 +22,7 @@ Home Assistant `light.*` entity over the REST API.
 
 ## Requirements
 
-- OctoPrint 1.5.0 or newer
+- OctoPrint 1.5.0 or newer, including 2.0.0 (Python 3.9+ for OctoPrint 2)
 - A reachable Home Assistant instance with the Matter integration
 - A Matter-compatible Tapo bulb commissioned in Home Assistant as a `light.*`
   entity
@@ -71,6 +71,10 @@ The plugin does not commission Matter devices and never receives their setup
 codes or fabric credentials.
 
 ## Development
+
+Compatibility checks against OctoPrint 2.0.0 cover plugin discovery, settings,
+API permissions, and print event automation. See [testing](docs/testing.md) for
+the remaining checks with a real Home Assistant light.
 
 ```bash
 python -m venv .venv
